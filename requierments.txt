@@ -1,0 +1,8 @@
+pandas
+xlrd
+numpy
+matplotlib
+scipy
+torch
+sklearn
+pytorchtools
