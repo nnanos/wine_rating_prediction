@@ -2,13 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.metrics import classification_report, confusion_matrix, mean_squared_error
-import seaborn as sns
 
 
 #fortwnoume dedomena training kai testing
@@ -133,48 +131,92 @@ elif choice=='2':
     plt.tight_layout()
     plt.show()
 
+
 elif choice=='3':
 
-    scal = StandardScaler()
+    scale_data = input('Scale Data? (yes if scaling is desired)\n')
 
-    x_train = scal.fit_transform(x_train)
-    x_test = scal.fit_transform(x_test)
+    #den einai aparaithto sta random forest to scale twn dedomenwn
+    if scale_data == 'yes':
+        scal = StandardScaler()
 
+        x_train = scal.fit_transform(x_train)
+        x_test = scal.fit_transform(x_test)
+
+    #o ari8mos twn estimators mas deixnei to posa dentra 8a dhmiourgisei to random forest
     estim = int(input('Give number of estimators:\n'))
 
-    model = RandomForestClassifier(n_estimators=estim)
-    model.fit(x_train, y_train)
-    y_pred_ranfor = model.predict(x_test)
+
+    regclass = input('Select mode: (classification/regression)\n')
+    if regclass == 'classification':
+
+        model = RandomForestClassifier(n_estimators=estim)
+        model.fit(x_train, y_train)
+        y_pred_ranfor = model.predict(x_test)
 
 
-    print("MSE: ", mean_squared_error(y_test, y_pred_ranfor))
+        print("MSE: ", mean_squared_error(y_test, y_pred_ranfor))
 
-    print("Testing validation :", model.score(x_test, y_test))
+        print("Testing validation :", model.score(x_test, y_test))
 
-    print(classification_report(y_test, y_pred_ranfor))
+        print(classification_report(y_test, y_pred_ranfor))
 
-    print(confusion_matrix(y_test, y_pred_ranfor))
+        print(confusion_matrix(y_test, y_pred_ranfor))
 
-    print(y_pred_ranfor)
+        print(y_pred_ranfor)
 
-    x_train_new = training.drop(columns=['quality'])
+        x_train_new = training.drop(columns=['quality'])
 
-    # load wine quality
-    y_train_new = training[['quality']]
+        # load wine quality
+        y_train_new = training[['quality']]
 
-    # load test set
-    x_test_new = testing
+        # load test set
+        x_test_new = testing
 
-    model1 = RandomForestClassifier(n_estimators=estim)
-    model1.fit(x_train_new, y_train_new)
-    y_pred_ranfor_new = model1.predict(x_test_new)
+        model1 = RandomForestClassifier(n_estimators=estim)
+        model1.fit(x_train_new, y_train_new)
+        y_pred_ranfor_new = model1.predict(x_test_new)
 
-    print(y_pred_ranfor_new)
-    plt.figure()
-    plt.hist(y_pred_ranfor_new, bins=50)
-    plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
-    plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
-    plt.title("Distribution of wine quality based on Decision Tree Algorithm")
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+        print(y_pred_ranfor_new)
+        plt.figure()
+        plt.hist(y_pred_ranfor_new, bins=50)
+        plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
+        plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
+        plt.title("Distribution of wine quality based on Random Forest Algorithm (Classification)")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+    elif regclass == 'regression':
+        model = RandomForestRegressor(n_estimators=estim)
+        model.fit(x_train, y_train)
+        y_pred_ranfor_reg = model.predict(x_test)
+
+        print("MSE: ", mean_squared_error(y_test, y_pred_ranfor_reg))
+
+        print("Testing validation :", model.score(x_test, y_test))
+
+        print(y_pred_ranfor_reg)
+
+        x_train_new = training.drop(columns=['quality'])
+
+        # load wine quality
+        y_train_new = training[['quality']]
+
+        # load test set
+        x_test_new = testing
+
+        model1 = RandomForestClassifier(n_estimators=estim)
+        model1.fit(x_train_new, y_train_new)
+        y_pred_ranfor_reg_new = model1.predict(x_test_new)
+
+
+        print(y_pred_ranfor_reg_new)
+        plt.figure()
+        plt.hist(y_pred_ranfor_reg_new, bins=50)
+        plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
+        plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
+        plt.title("Distribution of wine quality based on Random Forest Algorithm (Regression)")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
