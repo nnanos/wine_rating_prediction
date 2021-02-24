@@ -1,8 +1,6 @@
-
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
-from sklearn.metrics import mean_squared_error
 import matplotlib.pyplot as plt
 import scipy
 import torch
@@ -17,6 +15,15 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.metrics import classification_report, confusion_matrix, mean_squared_error
+
+
+
 
 #some comments for the problem : All the following methods that we are going to examine are probabilistic (we are 
 # trying to estimate the parameteres θ of a predictor) . We could say that the predictor represents a transformation (or a function)
@@ -29,12 +36,12 @@ from sklearn.metrics import accuracy_score
 #loading data phase ---------------------------------------------------------------------------
 
 #loading train data points 
-df_train = pd.read_excel ('/home/nnanos/Documents/ΜΑΘΗΜΑΤΑ/ΘΕΩΡΙΑ_ΑΠΟΦΑΣΕΩΝ/code/Wine_Training.xlsx')
+df_train = pd.read_excel ('Wine_Training.xlsx')
 #converting train dataframe to numpy array
 train_dataset = df_train.to_numpy()
 
 #loading test input vectors
-df_test =  pd.read_excel ('/home/nnanos/Documents/ΜΑΘΗΜΑΤΑ/ΘΕΩΡΙΑ_ΑΠΟΦΑΣΕΩΝ/code/Wine_Testing.xlsx')
+df_test =  pd.read_excel ('Wine_Testing.xlsx')
 unknown_inputs = df_test.to_numpy()
 
 
@@ -58,11 +65,183 @@ b = train_dataset[:,train_dataset.shape[1]-1]
 
 #VARIOUS METHODs EXAMINATION-----------------------------------
 
-l = int(input("1->Linear Regression\n2->Feedforward Neural Net (one hidden layer)\n3->Custom K-nn\n:"))
+l = int(input("1->Logistic Regression\n2->Decision Tree\n3->Random Forest\n4->Linear Regression\n5->Feedforward Neural Net (one hidden layer)\n6->Custom K-nn\n:"))
+
+#----------Logistic Regression-------------
+if (l == 1):
+
+    x_train, x_test, y_train, y_test = train_test_split(A, b, test_size=0.25, random_state=2021)
+
+    # --------Logistic Regression------------
+
+    scal = StandardScaler()
+
+    x_train = scal.fit_transform(x_train)
+    x_test = scal.fit_transform(x_test)
+
+    model = LogisticRegression()
+    model.fit(x_train, y_train)
+    y_pred_logisticreg = model.predict(x_test)
+
+    print("MSE: ", mean_squared_error(y_test, y_pred_logisticreg))
+
+    print("Testing validation :", model.score(x_test, y_test))
+
+    print(classification_report(y_test, y_pred_logisticreg))
+
+    print(confusion_matrix(y_test, y_pred_logisticreg))
+
+    print(y_pred_logisticreg)
+
+    # epeita 8ewroume to neo testing arxeio gia na kanei ektimish krasiou me agnwsto quality
+    # load wine attributes except quality
+    x_train_new = A
+
+    # load wine quality
+    y_train_new = b
+
+    # load test set
+    x_test_new = unknown_inputs
+
+    model1 = LogisticRegression()
+    model1.fit(x_train_new, y_train_new)
+    y_pred_logisticreg_new = model1.predict(x_test_new)
+
+    print(y_pred_logisticreg_new)
+    plt.figure()
+    plt.hist(y_pred_logisticreg_new, bins=50)
+    plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
+    plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
+    plt.title("Distribution of wine quality based on Logistic Regression Algorithm")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+
+#---------Decision Tree--------------
+if (l == 2):
+
+    x_train, x_test, y_train, y_test = train_test_split(A, b, test_size=0.25, random_state=2021)
+
+    model = DecisionTreeClassifier()
+    model = model.fit(x_train, y_train)
+    y_pred_dectree = model.predict(x_test)
+
+    print("MSE: ", mean_squared_error(y_test, y_pred_dectree))
+
+    print("Testing validation :", model.score(x_test, y_test))
+
+    print(classification_report(y_test, y_pred_dectree))
+
+    print(confusion_matrix(y_test, y_pred_dectree))
+
+    print(y_pred_dectree)
+
+    x_train_new = A
+
+    # load wine quality
+    y_train_new = b
+
+    # load test set
+    x_test_new = unknown_inputs
+
+    model1 = DecisionTreeClassifier()
+    model1.fit(x_train_new, y_train_new)
+    y_pred_dectree_new = model1.predict(x_test_new)
+
+    print(y_pred_dectree_new)
+    plt.figure()
+    plt.hist(y_pred_dectree_new, bins=50)
+    plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
+    plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
+    plt.title("Distribution of wine quality based on Decision Tree Algorithm")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+
+#-------------Random Forest
+if (l == 3):
+
+    x_train, x_test, y_train, y_test = train_test_split(A, b, test_size=0.25, random_state=2021)
+
+    # o ari8mos twn estimators mas deixnei to posa dentra 8a dhmiourgisei to random forest
+    estim = int(input('Give number of estimators:\n'))
+
+    regclass = input('Select mode: (classification/regression)\n')
+    if regclass == 'classification':
+        model = RandomForestClassifier(n_estimators=estim)
+        model.fit(x_train, y_train)
+        y_pred_ranfor = model.predict(x_test)
+
+        print("MSE: ", mean_squared_error(y_test, y_pred_ranfor))
+
+        print("Testing validation :", model.score(x_test, y_test))
+
+        print(classification_report(y_test, y_pred_ranfor))
+
+        print(confusion_matrix(y_test, y_pred_ranfor))
+
+        print(y_pred_ranfor)
+
+        x_train_new = A
+
+        # load wine quality
+        y_train_new = b
+
+        # load test set
+        x_test_new = unknown_inputs
+
+        model1 = RandomForestClassifier(n_estimators=estim)
+        model1.fit(x_train_new, y_train_new)
+        y_pred_ranfor_new = model1.predict(x_test_new)
+
+        print(y_pred_ranfor_new)
+        plt.figure()
+        plt.hist(y_pred_ranfor_new, bins=50)
+        plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
+        plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
+        plt.title("Distribution of wine quality based on Random Forest Algorithm (Classification)")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
+
+    elif regclass == 'regression':
+        model = RandomForestRegressor(n_estimators=estim)
+        model.fit(x_train, y_train)
+        y_pred_ranfor_reg = model.predict(x_test)
+
+        print("MSE: ", mean_squared_error(y_test, y_pred_ranfor_reg))
+
+        print("Testing validation :", model.score(x_test, y_test))
+
+        print(y_pred_ranfor_reg)
+
+        x_train_new = A
+
+        # load wine quality
+        y_train_new = b
+
+        # load test set
+        x_test_new = unknown_inputs
+
+        model1 = RandomForestClassifier(n_estimators=estim)
+        model1.fit(x_train_new, y_train_new)
+        y_pred_ranfor_reg_new = model1.predict(x_test_new)
+
+
+        print(y_pred_ranfor_reg_new)
+        plt.figure()
+        plt.hist(y_pred_ranfor_reg_new, bins=50)
+        plt.axvline(0, linestyle='--', color='r', label='lower boundary of the accepted ratings')
+        plt.axvline(10, linestyle='--', color='b', label='upper boundary of the accepted ratings')
+        plt.title("Distribution of wine quality based on Random Forest Algorithm (Regression)")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
 
 
 #Linear Regression-------------------------------------------------------------------------------------------------------------------
-if (l == 1) :
+if (l == 4) :
     #Here we examine the multiple linear regression method (multiple because we have 10 independent variable and 1 dependent)
     #we use least squares aproach to fit the model (closed form solution x = (A^TA)^-1A^Tb projection of b to the subspace spanned by the collumns of A) 
     # (minimizes the L2 norm of the residual or the MSE (e=b-Ax where x are the parameters of the model))--------
@@ -211,7 +390,7 @@ U @ S_full @ V
 '''
 
 #Feedforward Neural Net (one hidden layer)-------------------------------------------------------------------------------------------
-if (l == 2) :
+if (l == 5) :
     '''
     #EXPERIMENTING WITH THE EFFECT OF SCALING (preprocessing of the input data) ON THE PERFORMANCE OF THE ALGORITHM-----------------
     
@@ -426,7 +605,7 @@ if (l == 2) :
     #-----------------------------------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------------------------------------------------------------
 
-if l==3:
+if (l==6):
     #see the problem as a classification one 
 
     #αλγόριθμος που υλοποιήθηκε (παρόμοιος με τον k-nn):
