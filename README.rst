@@ -1,5 +1,5 @@
 =======================================================================
-Email Spam detection with Deep Learning
+Wine rating prediction with Machine Learning
 =======================================================================
 
 Description
