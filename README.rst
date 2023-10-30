@@ -258,6 +258,10 @@ used to determine the top k neighbors is the L2 distance.
 
 
 
+	.. Image:: /Images/NN/Neural_Net_exp1.png
+
+
+
      	.. Image:: /Images/NN/Neural_Net_exp.png
 
 
@@ -266,7 +270,6 @@ used to determine the top k neighbors is the L2 distance.
 
 
 
-	.. Image:: /Images/NN/Neural_Net_exp1.png
 
 
 
