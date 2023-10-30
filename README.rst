@@ -93,11 +93,10 @@ either "on-line" one example at a time or (intermediate solution)
 in mini-batches.
 
 
-.. Image:: /Images/NN/Neural_Net.png
 
 
-
-
+.. image:: /Images/NN/Neural_Net.png
+   :class: centered
 
 EXPERIMENTS
 =============
