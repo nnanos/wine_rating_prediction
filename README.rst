@@ -92,7 +92,8 @@ Finally, a Neural Net can be trained either "massively" (batch learning)
 either "on-line" one example at a time or (intermediate solution)
 in mini-batches.
 
-**IMAGES**
+
+.. Image:: /Images/NN/Neural_Net.png
 
 
 
@@ -156,7 +157,7 @@ used to determine the top k neighbors is the L2 distance.
 		0.48578451882845186 (custom k-nn)
 		0.48578451882845186 (sklearn k-nn)
 	
-	**IMAGES**
+	.. Image:: /Images/K-NN/k_nn_exp_normalized.png
 
 
 	**Comments**
@@ -176,7 +177,7 @@ used to determine the top k neighbors is the L2 distance.
 		0.47911785216178526 (sklearn k-nn)
 
 	
-	**IMAGES**
+	.. Image:: /Images/K-NN/k_nn_exp_unnormalized.png
 
 
 **Comments**
@@ -192,7 +193,7 @@ used to determine the top k neighbors is the L2 distance.
 	(of the top k) was logically much larger than the magnitude of all the
 	remainders.
 
-	**IMAGE**
+	.. Image:: /Images/K-NN/k_nn_comment2.png
 
 	The previous relation shows that if we use the dot product as a
 	metric to determine the neighbors then (since the metric of b is constant)
@@ -205,7 +206,12 @@ used to determine the top k neighbors is the L2 distance.
 	top k neighbors we choose the min of the metric response.
 	The following graph shows the possible situation:
 
-**IMAGE**
+
+	.. Image:: /Images/K-NN/k_nn_comment1.png
+
+
+
+	.. Image:: /Images/K-NN/k_nn_comment.png
 
 
 
@@ -244,7 +250,23 @@ used to determine the top k neighbors is the L2 distance.
 
 
 
+	.. Image:: /Images/NN/learning_curve.png
 
+
+
+
+
+
+
+     	.. Image:: /Images/NN/Neural_Net_exp.png
+
+
+
+
+
+
+
+	.. Image:: /Images/NN/Neural_Net_exp1.png
 
 
 
