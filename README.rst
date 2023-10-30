@@ -35,7 +35,8 @@ are described below.
 
 
 
-* K-nearest neighbor (custom)
+K-nearest neighbor (custom)
+============
 
 The algorithm was implemented by us and is not exactly the python 
 implementation (however the we compared with the built-in of sklearn).
@@ -69,7 +70,8 @@ the vectors are normilized) and the smaller the better.
 
 
  
-* Feedforward Nueral Net (multilayer perceptron with one hidden layer) :
+Feedforward Nueral Net (multilayer perceptron with one hidden layer) 
+============
 
 Knowing that the problem has a non-linear nature we wanted to consider
 algorithms as well such as Neural Nets which we know can deal with these
@@ -132,7 +134,7 @@ set the opposite.
 
 
 
-* K-nearest neighbor (custom)
+* **K-nearest neighbor (custom)**
 
 For the evaluation of the algorithm, the Cross validation technique for k = 5
 was used here as well metric the MSE. It should be noted that we performed the
@@ -217,7 +219,7 @@ used to determine the top k neighbors is the L2 distance.
 	(dimensionality of the input).
 	
 
-* Perceptron (Pytorch)
+* **Perceptron (Pytorch)**
 
 	**A hidden layer with relu non-linearity**
 
