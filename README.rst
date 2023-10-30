@@ -95,8 +95,8 @@ in mini-batches.
 
 
 
-.. image:: /Images/NN/Neural_Net.png
-   :class: centered
+					.. image:: /Images/NN/Neural_Net.png
+					   :class: centered
 
 EXPERIMENTS
 =============
@@ -159,7 +159,6 @@ used to determine the top k neighbors is the L2 distance.
 	.. Image:: /Images/K-NN/k_nn_exp_normalized.png
 
 
-	**Comments**
 
 
 
@@ -206,11 +205,18 @@ used to determine the top k neighbors is the L2 distance.
 	The following graph shows the possible situation:
 
 
-	.. Image:: /Images/K-NN/k_nn_comment1.png
+			.. Image:: /Images/K-NN/k_nn_comment1.png
 
 
 
-	.. Image:: /Images/K-NN/k_nn_comment.png
+			.. Image:: /Images/K-NN/k_nn_comment.png
+
+	#. Therefore the algorithm that uses the **L2 distance** as a metric will decide a1 (correct)
+
+	#. Therefore the algorithm that uses the **dot product** as a metric will decide a2 (false)
+
+
+	
 
 
 
@@ -249,7 +255,50 @@ used to determine the top k neighbors is the L2 distance.
 
 
 
-	.. Image:: /Images/NN/learning_curve.png
+
+	**Hyperparameters**
+
+		* number of nodes in the hidden layer = 6
+
+		* max_epochs = 100
+
+		* batch_size = 256
+
+		* learning rate = 0.005
+
+		* patiance = 10
+
+		* optimizer = Adam
+
+
+
+	**Training Phase (Learning curve)**
+
+		.. Image:: /Images/NN/learning_curve.png
+
+
+
+
+
+	**Evaluation Phase**
+
+		* The average cross entropy loss and accuracy obtained over all the fold validations 			  (last epoch) is:
+	
+		.. Image:: /Images/NN/Neural_Net_exp1.png
+	
+
+		* After feeding the unknown inputs (test set) to the network we have:
+	
+		.. Image:: /Images/NN/Neural_Net_exp.png
+
+
+
+
+Comparing the results of the Neural Net with those of the K-nn algorithm we see that 
+choosing a more complex algorithm does not necessarily mean that we will get better 
+predictions. Therefore we conclude that the choice of the algorithm we will use
+to solve a problem will depend a lot on the problem but also on the quantity and the
+quality of our data.
 
 
 
@@ -257,24 +306,6 @@ used to determine the top k neighbors is the L2 distance.
 
 
 
-	.. Image:: /Images/NN/Neural_Net_exp1.png
-
-
-
-     	.. Image:: /Images/NN/Neural_Net_exp.png
-
-
-
-
-
-
-
-
-
-
-
-Reproduce the experiments
-============
 
 
 
